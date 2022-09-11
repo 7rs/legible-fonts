@@ -1,0 +1,14 @@
+# Git
+**.git**
+!.gitignore
+
+# Tools
+/.editorconfig
+
+# Python
+**__pycache__**
+/.flake8
+/pyproject.toml
+
+# OS
+**.DS_Store**
