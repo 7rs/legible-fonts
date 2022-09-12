@@ -8,7 +8,7 @@ def generate_font(generate_sfd: bool):
 
 
 def main():
-    generate_font(generate_sfd=True)
+    generate_font(generate_sfd=False)
 
 
 if __name__ == "__main__":
