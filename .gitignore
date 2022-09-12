@@ -1,14 +1,15 @@
-# Git
+# Datas & Caches
 **.git**
-!.gitignore
-
-# Tools
-/.editorconfig
-
-# Python
 **__pycache__**
+
+# Configurations
+/.editorconfig
 /.flake8
 /pyproject.toml
+!.gitignore
 
-# OS
+# Resource
+dist/*
+
+# Other
 **.DS_Store**
