@@ -1,54 +1,53 @@
-from dataclasses import dataclass
+from typing import NoReturn
 
 try:
     import fontforge
-
-    del fontforge
 except ImportError:
     raise Exception("Fontforge is required: https://fontforge.org")
 
-from generator.configurator.fonts import FontOption, Copyright, Name, Size, Underline
-from generator.configurator import fonts
+from configurator.fonts.option import FontOption
+from configurator.fonts import file, table, option
+from configurator.glyphs.option import Fonts
+from configurator.glyphs import select
+from configurator import sfd
+from generator.glyphs import path, name
+from generator.glyphs import option as config
+from generator.fonts.option import SFDOption, LegibleFonts
 
 
-@dataclass
-class SFDOption(FontOption):
-    size: Size = Size(ascent=800, descent=200)
-    underline: Underline = Underline(position=-100, height=50)
-    italic_angle: float = 0.2
-    encoding: str = "UnicodeFull"
+FONT_NAMES = [Fonts.IOSEVKA_EXTENDED, Fonts.BIZ_UDGOTHIC, Fonts.NERD_FONTS, Fonts.NOTO_EMOJI]
 
 
-@dataclass
-class LegibleFonts(FontOption):
-    name: Name = Name(
-        family="Legible",
-        fond="Regular",
-        font="Legible-Fonts",
-        font_full="Legible-Fonts",
-        copyright=fonts.get_copyrights(
-            [
-                Copyright("Legible Fonts", "Cbrnex", "2022", "https://github.com/7rs"),
-                Copyright("Iosevka", "Renzhi", "2015-2021", "aka. Belleve Invis, belleve@typeof.net"),
-                Copyright(
-                    "BIZ UDGothic",
-                    "The BIZ UDGothic Project Authors",
-                    "2022",
-                    "https://github.com/googlefonts/morisawa-biz-ud-gothic",
-                ),
-                Copyright("Nerd Fonts", "Ryan McIntyre", "2016"),
-                Copyright("Noto Emoji", "Google Inc.", "2013, 2021"),
-                Copyright(
-                    "FiraCode",
-                    "The Fira Code Project Authors",
-                    "2014-2021",
-                    "https://github.com/tonsky/FiraCode",
-                ),
-                Copyright("FontForge", "George Williams", "2000-2012", "https://github.com/fontforge/fontforge"),
-            ]
-        ),
-    )
-    size: Size = Size(ascent=800, descent=200)
-    underline: Underline = Underline(position=-100, height=50)
-    italic_angle: float = 0.2
-    encoding: str = "UnicodeFull"
+def _generate_sfd_file(font_name: Fonts, opt: FontOption) -> NoReturn:
+    """Generates the SFD file from the font name and option for the font."""
+    font = path.open_font(font_name)
+    option.set_option(font, opt)
+    sfd.generate_sfd(font, config.get_options(font_name), path.get_sfd_path(font_name))
+
+
+def generate_sfd_files() -> NoReturn:
+    """Generates the SFD files."""
+    opt = SFDOption()
+    for font_name in FONT_NAMES:
+        _generate_sfd_file(font_name, opt)
+
+
+def _fix_names(font: fontforge.font) -> NoReturn:
+    """Fixes the name for glyphs."""
+    name.change_glyph_names(font, name.NerdFonts.ALL, new_name=None, add_name=name.NerdFonts.NAME)
+    name.change_glyph_names(font, name.NotoEmoji.ALL, new_name=None, add_name=name.NotoEmoji.NAME)
+
+
+def merge_sfd_files() -> NoReturn:
+    """Merges the SFD files into a single font file."""
+    font = fontforge.font()
+    option.set_option(font, LegibleFonts())
+
+    for font_name in FONT_NAMES:
+        file.merge_font(font, path.get_sfd_path(font_name))
+
+    table.delete_all_lookups(font)
+    select.select_invalid_glyphs(font)
+    font.clear()
+
+    file.generate_font(font, "./dist/legible-fonts.ttf")

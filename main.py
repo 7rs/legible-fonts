@@ -1,4 +1,4 @@
-from generator import generator
+import generator
 
 
 def generate_font(generate_sfd: bool):
