@@ -1,12 +1,12 @@
 # Datas & Caches
 **.git**
+!.gitignore
 **__pycache__**
 
 # Configurations
 /.editorconfig
 /.flake8
 /pyproject.toml
-!.gitignore
 
 # Resource
 dist/*
