@@ -5,14 +5,18 @@ try:
 except ImportError:
     raise Exception("Fontforge is required: https://fontforge.org")
 
-from configurator.fonts.option import FontOption
+from configurator import sfd, initializer
 from configurator.fonts import file, table, option
-from configurator.glyphs.option import Fonts
+from configurator.fonts.option import FontOption
 from configurator.glyphs import select
-from configurator import sfd
+from configurator.glyphs.option import Fonts
+
+from generator import fonts, glyphs
+from generator.fonts.option import SFDOption, LegibleFonts
 from generator.glyphs import path, name
 from generator.glyphs import option as config
-from generator.fonts.option import SFDOption, LegibleFonts
+
+__all__ = initializer.get_all_modules(__path__[0])
 
 
 FONT_NAMES = [Fonts.IOSEVKA_EXTENDED, Fonts.BIZ_UDGOTHIC, Fonts.NERD_FONTS, Fonts.NOTO_EMOJI]

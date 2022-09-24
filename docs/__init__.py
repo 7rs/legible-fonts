@@ -1,4 +1,4 @@
 from configurator import initializer
-from generator.fonts import config, option
+from docs import attr, modules, markdown
 
 __all__ = initializer.get_all_modules(__path__[0])
