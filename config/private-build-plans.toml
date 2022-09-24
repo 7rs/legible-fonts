@@ -1,0 +1,45 @@
+[buildPlans.iosevka-custom]
+family = "Iosevka Custom"
+spacing = "fontconfig-mono"
+serifs = "sans"
+no-cv-ss = true
+export-glyph-names = false
+
+[buildPlans.iosevka-custom.variants.design]
+capital-q = "crossing"
+capital-z = "straight-serifless-with-crossbar"
+g = "double-storey"
+i = "hooky"
+j = "serifless"
+l = "tailed-serifed"
+eszet = "sulzbacher-descending"
+lower-delta = "flat-top"
+lower-iota = "tailed"
+lower-xi = "rounded"
+cyrl-capital-ze = "bilateral-serifed"
+cyrl-ze = "bilateral-serifed"
+cyrl-capital-ka = "symmetric-connected-serifed"
+cyrl-ka = "symmetric-connected-serifed"
+cyrl-en = "serifed"
+cyrl-ef = "cursive"
+cyrl-capital-u = "cursive"
+cyrl-yeri = "round"
+cyrl-yery = "round-tailed"
+zero = "slashed-oval"
+one = "base"
+two = "straight-neck"
+three = "flat-top"
+brace = "straight"
+ampersand = "upper-open"
+percent = "rings-continuous-slash"
+question = "corner"
+
+[buildPlans.iosevka-custom.weights.regular]
+shape = 400
+menu = 400
+css = 400
+
+[buildPlans.iosevka-custom.weights.bold]
+shape = 700
+menu = 700
+css = 700
